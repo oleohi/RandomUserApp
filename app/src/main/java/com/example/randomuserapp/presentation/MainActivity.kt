@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.randomuserapp.presentation.login.ui_components.LoginScreen
 import com.example.randomuserapp.presentation.ui.theme.RandomUserAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,22 +23,16 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    LoginScreen()
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!", style = MaterialTheme.typography.h1)
-}
-
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     RandomUserAppTheme {
-        Greeting("Android")
     }
 }
