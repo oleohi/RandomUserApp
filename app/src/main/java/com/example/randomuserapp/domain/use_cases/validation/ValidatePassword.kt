@@ -1,5 +1,6 @@
-package com.example.randomuserapp.domain.use_cases
+package com.example.randomuserapp.domain.use_cases.validation
 
+import com.example.randomuserapp.domain.use_cases.ValidationResult
 import com.example.randomuserapp.util.Constants.PASSWORD_LENGTH
 
 class ValidatePassword {

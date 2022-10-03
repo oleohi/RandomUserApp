@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.randomuserapp.domain.use_cases.ValidateEmail
-import com.example.randomuserapp.domain.use_cases.ValidatePassword
+import com.example.randomuserapp.domain.use_cases.validation.ValidateEmail
+import com.example.randomuserapp.domain.use_cases.validation.ValidatePassword
 import com.example.randomuserapp.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
