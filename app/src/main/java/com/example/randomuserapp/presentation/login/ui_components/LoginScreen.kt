@@ -51,8 +51,9 @@ fun LoginScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(32.dp),
-        verticalArrangement = Arrangement.Center
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.Center,
     ) {
         Text(
             text = stringResource(R.string.login_text),
@@ -74,7 +75,7 @@ fun LoginScreen() {
             isError = state.emailError != null,
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(10.dp),
-            maxLines = 1,
+            maxLines = 100,
             placeholder = {
                 Text(text = stringResource(R.string.email_text))
             },
@@ -82,7 +83,8 @@ fun LoginScreen() {
             colors = TextFieldDefaults.textFieldColors(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
+                disabledIndicatorColor = Color.Transparent,
+                errorIndicatorColor = Color.Transparent
             )
         )
         if (state.emailError != null) {
@@ -113,7 +115,8 @@ fun LoginScreen() {
             colors = TextFieldDefaults.textFieldColors(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
+                disabledIndicatorColor = Color.Transparent,
+                errorIndicatorColor = Color.Transparent
             )
         )
         if (state.passwordError != null) {
@@ -128,6 +131,9 @@ fun LoginScreen() {
         Button(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(10.dp),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = if (isSystemInDarkTheme()) MaterialTheme.colors.secondary else MaterialTheme.colors.primary
+            ),
             onClick = {
                 viewModel.onEvent(LoginFormEvent.SubmitLogin)
             }
@@ -135,7 +141,7 @@ fun LoginScreen() {
             Text(
                 text = stringResource(R.string.login_text),
                 modifier = Modifier
-                    .padding(top = 4.dp, bottom = 4.dp)
+                    .padding(top = 4.dp, bottom = 5.dp)
             )
         }
     }
