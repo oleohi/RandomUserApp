@@ -33,7 +33,7 @@ import com.example.randomuserapp.util.ValidationEvent
 import kotlin.reflect.KType
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(modifier: Modifier = Modifier) {
     val viewModel = viewModel<LoginViewModel>()
     val state = viewModel.state
     val context = LocalContext.current
@@ -49,7 +49,7 @@ fun LoginScreen() {
     }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
             .verticalScroll(rememberScrollState()),
@@ -126,10 +126,10 @@ fun LoginScreen() {
             )
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = modifier.height(16.dp))
 
         Button(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = modifier.fillMaxWidth(),
             shape = RoundedCornerShape(10.dp),
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = if (isSystemInDarkTheme()) MaterialTheme.colors.secondary else MaterialTheme.colors.primary
@@ -140,7 +140,7 @@ fun LoginScreen() {
         ) {
             Text(
                 text = stringResource(R.string.login_text),
-                modifier = Modifier
+                modifier = modifier
                     .padding(top = 4.dp, bottom = 5.dp)
             )
         }

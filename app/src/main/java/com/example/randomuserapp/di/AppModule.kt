@@ -1,6 +1,8 @@
 package com.example.randomuserapp.di
 
 import com.example.randomuserapp.data.remote.RandomUserApi
+import com.example.randomuserapp.data.repository.RandomUserRepositoryImpl
+import com.example.randomuserapp.domain.repository.RandomUserRepository
 import com.example.randomuserapp.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -22,4 +24,11 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(RandomUserApi::class.java)
+
+
+    @Provides
+    @Singleton
+    fun provideRandomUserRepository(api: RandomUserApi): RandomUserRepository =
+        RandomUserRepositoryImpl(api)
+
 }
