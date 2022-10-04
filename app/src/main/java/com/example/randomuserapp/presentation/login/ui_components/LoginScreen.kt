@@ -25,7 +25,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.randomuserapp.R
+import com.example.randomuserapp.presentation.NavScreen
 import com.example.randomuserapp.presentation.login.LoginFormEvent
 import com.example.randomuserapp.presentation.login.LoginViewModel
 import com.example.randomuserapp.presentation.ui.theme.RandomUserAppTheme
@@ -33,7 +35,10 @@ import com.example.randomuserapp.util.ValidationEvent
 import kotlin.reflect.KType
 
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier) {
+fun LoginScreen(
+    navController: NavController,
+    modifier: Modifier = Modifier
+) {
     val viewModel = viewModel<LoginViewModel>()
     val state = viewModel.state
     val context = LocalContext.current
@@ -41,8 +46,7 @@ fun LoginScreen(modifier: Modifier = Modifier) {
         viewModel.validationEvents.collect { event ->
             when (event) {
                 is ValidationEvent.Success -> {
-                    Toast.makeText(context, "Login Successful!", Toast.LENGTH_LONG).show()
-                    //todo: transition to next screen
+                    navController.navigate(NavScreen.UsersScren.route)
                 }
             }
         }
@@ -151,6 +155,6 @@ fun LoginScreen(modifier: Modifier = Modifier) {
 @Composable
 fun LoginScreenPreview() {
     RandomUserAppTheme {
-        LoginScreen()
+//        LoginScreen()
     }
 }

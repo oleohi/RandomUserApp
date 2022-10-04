@@ -4,6 +4,6 @@ import com.example.randomuserapp.domain.models.RandomUser
 
 data class UserState(
     val isLoading: Boolean = false,
-    val user: RandomUser? = null,
+    val users: List<RandomUser> = emptyList(),
     val error: String = ""
 )

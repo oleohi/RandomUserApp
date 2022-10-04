@@ -2,6 +2,7 @@ package com.example.randomuserapp.presentation.users.ui_components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -17,14 +18,16 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.randomuserapp.R
 import com.example.randomuserapp.presentation.ui.theme.RandomUserAppTheme
 import com.example.randomuserapp.presentation.users.UserViewModel
 
 @Composable
-fun UsersScreen(modifier: Modifier = Modifier) {
-    val viewModel = viewModel<UserViewModel>()
+fun UsersScreen(
+    modifier: Modifier = Modifier,
+    viewModel: UserViewModel = hiltViewModel()
+) {
     val state by viewModel.state
     val textState = remember { mutableStateOf(TextFieldValue("")) }
 
@@ -35,16 +38,20 @@ fun UsersScreen(modifier: Modifier = Modifier) {
     ) {
         Text(
             text = stringResource(R.string.search_text),
-            style = MaterialTheme.typography.h4,
+            style = MaterialTheme.typography.h5,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
             modifier = modifier.fillMaxWidth()
         )
         Spacer(modifier = modifier.height(24.dp))
         SearchView(state = textState)
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(24.dp))
         Box(modifier = Modifier.fillMaxSize()) {
+
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                items(state.users) { user ->
+                    UserItem(user = user)
+                }
             }
 
             if (state.error.isNotBlank()) {
