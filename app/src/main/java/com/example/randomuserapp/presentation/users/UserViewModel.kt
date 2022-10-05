@@ -1,6 +1,7 @@
 package com.example.randomuserapp.presentation.users
 
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,16 +22,24 @@ class UserViewModel @Inject constructor(
 
     private val _state = mutableStateOf(UserState())
     val state: State<UserState> = _state
+    private val _allUsers = arrayListOf<RandomUser>()
 
     init {
-        getRandomUser()
+        repeat(1000) {
+            getRandomUser()
+        }
     }
 
     private fun getRandomUser() {
         getRandomUserUseCase.execute().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _state.value = UserState(users = result.data ?: emptyList())
+                    if (!result.data.isNullOrEmpty()) {
+                        result.data.forEach {
+                            _allUsers.add(it)
+                        }
+                        _state.value = UserState(users = result.data, allUsers = _allUsers)
+                    }
                 }
                 is Resource.Error -> {
                     _state.value = UserState(error = result.message.toString())

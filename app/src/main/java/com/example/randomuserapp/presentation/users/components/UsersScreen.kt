@@ -1,4 +1,4 @@
-package com.example.randomuserapp.presentation.users.ui_components
+package com.example.randomuserapp.presentation.users.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -49,7 +49,7 @@ fun UsersScreen(
         Box(modifier = Modifier.fillMaxSize()) {
 
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                items(state.users) { user ->
+                items(state.allUsers) { user ->
                     UserItem(user = user)
                 }
             }

@@ -1,4 +1,4 @@
-package com.example.randomuserapp.presentation.login.ui_components
+package com.example.randomuserapp.presentation.login.components
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*

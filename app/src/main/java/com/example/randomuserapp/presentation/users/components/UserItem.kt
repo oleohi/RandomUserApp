@@ -1,4 +1,4 @@
-package com.example.randomuserapp.presentation.users.ui_components
+package com.example.randomuserapp.presentation.users.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -13,10 +13,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
+import coil.disk.DiskCache
+import coil.request.ImageRequest
+import coil.size.Size
 import com.example.randomuserapp.R
 import com.example.randomuserapp.data.remote.dto.Name
 import com.example.randomuserapp.data.remote.dto.Picture
@@ -34,13 +39,21 @@ fun UserItem(user: RandomUser, modifier: Modifier = Modifier) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_launcher_background),
-                contentDescription = "Random",
+                painter = rememberAsyncImagePainter(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(user.picture.large)
+                    .size(Size.ORIGINAL)
+                    .placeholder(R.drawable.ic_person_24)
+                    .error(R.drawable.ic_error_24)
+                    .build(),
+                    contentScale = ContentScale.Crop
+                ),
+                contentDescription = "Random User",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(64.dp)
                     .clip(CircleShape)
-                    .border(1.5.dp, Color.LightGray, CircleShape)
+                    .border(2.dp, Color.LightGray, CircleShape)
             )
             Column(
                 modifier = modifier
@@ -55,15 +68,17 @@ fun UserItem(user: RandomUser, modifier: Modifier = Modifier) {
                 )
                 Text(
                     text = user.email,
-                    style = MaterialTheme.typography.subtitle1,
+                    style = MaterialTheme.typography.subtitle2,
+                    fontWeight = FontWeight.SemiBold,
                 )
                 Text(
                     text = user.phone,
-                    style = MaterialTheme.typography.subtitle1,
+                    style = MaterialTheme.typography.subtitle2,
+                    fontWeight = FontWeight.SemiBold,
                 )
             }
         }
-        Divider()
+        Divider(modifier = modifier.padding(bottom = 8.dp))
     }
 
 }
