@@ -4,6 +4,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
@@ -14,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -40,7 +42,11 @@ fun LoginScreen(
         viewModel.validationEvents.collect { event ->
             when (event) {
                 is ValidationEvent.Success -> {
-                    navController.navigate(NavScreen.UsersScren.route)
+                    navController.navigate(NavScreen.UsersScren.route) {
+                        popUpTo(NavScreen.LoginScreen.route) {
+                            inclusive = true
+                        }
+                    }
                 }
             }
         }
@@ -63,7 +69,7 @@ fun LoginScreen(
                 .defaultMinSize(minHeight = 30.dp)
                 .padding(40.dp)
         )
-        TextField(
+        OutlinedTextField(
             value = state.email,
             onValueChange = {
                 viewModel.onEvent(
@@ -73,17 +79,19 @@ fun LoginScreen(
             isError = state.emailError != null,
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(10.dp),
-            maxLines = 100,
+            maxLines = 1,
             placeholder = {
                 Text(text = stringResource(R.string.email_text))
             },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Email,
+                imeAction = ImeAction.Next
+            ),
             colors = TextFieldDefaults.textFieldColors(
-                focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent,
-                errorIndicatorColor = Color.Transparent
             )
+
         )
         if (state.emailError != null) {
             Text(
@@ -94,7 +102,7 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        TextField(
+        OutlinedTextField(
             value = state.password,
             onValueChange = {
                 viewModel.onEvent(
@@ -108,13 +116,14 @@ fun LoginScreen(
             placeholder = {
                 Text(text = stringResource(R.string.password_text))
             },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Password,
+                imeAction = ImeAction.Done
+            ),
             visualTransformation = PasswordVisualTransformation(),
             colors = TextFieldDefaults.textFieldColors(
-                focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent,
-                errorIndicatorColor = Color.Transparent
             )
         )
         if (state.passwordError != null) {
@@ -142,13 +151,5 @@ fun LoginScreen(
                     .padding(top = 4.dp, bottom = 5.dp)
             )
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun LoginScreenPreview() {
-    RandomUserAppTheme {
-//        LoginScreen()
     }
 }

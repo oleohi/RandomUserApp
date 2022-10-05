@@ -48,8 +48,14 @@ fun UsersScreen(
         Spacer(modifier = Modifier.height(24.dp))
         Box(modifier = Modifier.fillMaxSize()) {
 
+            val searchedText = textState.value.text
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                items(state.allUsers) { user ->
+                items(state.allUsers.filter {
+                    val fullName = "${it.name.first} ${it.name.last}"
+                    fullName.contains(searchedText, true) ||
+                            it.email.contains(searchedText, true)
+                }
+                ) { user ->
                     UserItem(user = user)
                 }
             }

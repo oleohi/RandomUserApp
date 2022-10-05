@@ -1,6 +1,5 @@
 package com.example.randomuserapp.presentation.users
 
-import androidx.compose.runtime.mutableStateListOf
 import com.example.randomuserapp.domain.models.RandomUser
 
 data class UserState(

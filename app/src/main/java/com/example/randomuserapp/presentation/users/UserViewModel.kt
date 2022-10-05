@@ -25,7 +25,7 @@ class UserViewModel @Inject constructor(
     private val _allUsers = arrayListOf<RandomUser>()
 
     init {
-        repeat(1000) {
+        repeat(100) {
             getRandomUser()
         }
     }
