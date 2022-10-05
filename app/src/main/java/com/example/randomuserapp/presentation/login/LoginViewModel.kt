@@ -5,16 +5,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.randomuserapp.domain.use_cases.validation.ValidateEmail
-import com.example.randomuserapp.domain.use_cases.validation.ValidatePassword
+import com.example.randomuserapp.domain.use_cases.validation.ValidateEmailUseCase
+import com.example.randomuserapp.domain.use_cases.validation.ValidatePasswordUseCase
 import com.example.randomuserapp.util.ValidationEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginViewModel(
-    private val validateEmail: ValidateEmail = ValidateEmail(), //Inject instance with dagger hilt
-    private val validatePassword: ValidatePassword = ValidatePassword() //Inject instance with dagger hilt
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val validateEmail: ValidateEmailUseCase,
+    private val validatePassword: ValidatePasswordUseCase
 ) : ViewModel() {
 
     var state by mutableStateOf(LoginFormState())

@@ -3,6 +3,8 @@ package com.example.randomuserapp.di
 import com.example.randomuserapp.data.remote.RandomUserApi
 import com.example.randomuserapp.data.repository.RandomUserRepositoryImpl
 import com.example.randomuserapp.domain.repository.RandomUserRepository
+import com.example.randomuserapp.domain.use_cases.validation.ValidateEmailUseCase
+import com.example.randomuserapp.domain.use_cases.validation.ValidatePasswordUseCase
 import com.example.randomuserapp.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -40,5 +42,13 @@ object AppModule {
     @Singleton
     fun provideRandomUserRepository(api: RandomUserApi): RandomUserRepository =
         RandomUserRepositoryImpl(api)
+
+    @Provides
+    @Singleton
+    fun provideValidateEmailUseCase() = ValidateEmailUseCase()
+
+    @Provides
+    @Singleton
+    fun provideValidatePasswordUseCase() = ValidatePasswordUseCase()
 
 }
