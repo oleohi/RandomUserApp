@@ -6,10 +6,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -20,8 +17,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.randomuserapp.R
+import com.example.randomuserapp.domain.models.RandomUser
 import com.example.randomuserapp.presentation.ui.theme.RandomUserAppTheme
 import com.example.randomuserapp.presentation.users.UserViewModel
+import java.util.*
 
 @Composable
 fun UsersScreen(
@@ -30,6 +29,10 @@ fun UsersScreen(
 ) {
     val state by viewModel.state
     val textState = remember { mutableStateOf(TextFieldValue("")) }
+
+    val users: ArrayList<RandomUser> = arrayListOf()
+    state.allUsers.forEach { users.add(it) }
+    var filteredList: ArrayList<RandomUser>
 
     Column(
         modifier = modifier
@@ -44,18 +47,29 @@ fun UsersScreen(
             modifier = modifier.fillMaxWidth()
         )
         Spacer(modifier = modifier.height(24.dp))
-        SearchView(state = textState)
-        Spacer(modifier = Modifier.height(24.dp))
-        Box(modifier = Modifier.fillMaxSize()) {
 
-            val searchedText = textState.value.text
+        SearchView(state = textState)
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Box(modifier = Modifier.fillMaxSize()) {
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                items(state.allUsers.filter {
-                    val fullName = "${it.name.first} ${it.name.last}"
-                    fullName.contains(searchedText, true) ||
-                            it.email.contains(searchedText, true)
+                val searchedText = textState.value.text
+                filteredList = if (searchedText.isEmpty()) {
+                    users
+                } else {
+                    val resultList = ArrayList<RandomUser>()
+                    for (user in users) {
+                        val fullName = "${user.name.first} ${user.name.last}"
+                        if (fullName.contains(searchedText, true) ||
+                            user.email.contains(searchedText, true)
+                        ) {
+                            resultList.add(user)
+                        }
+                    }
+                    resultList
                 }
-                ) { user ->
+                items(filteredList) { user ->
                     UserItem(user = user)
                 }
             }

@@ -10,6 +10,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -29,24 +31,21 @@ import com.example.randomuserapp.presentation.login.LoginFormEvent
 import com.example.randomuserapp.presentation.login.LoginViewModel
 import com.example.randomuserapp.presentation.ui.theme.RandomUserAppTheme
 import com.example.randomuserapp.util.ValidationEvent
+import kotlinx.coroutines.flow.first
 
 @Composable
 fun LoginScreen(
-    navController: NavController,
+    navToUsers: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val state = viewModel.state
-    val context = LocalContext.current
-    LaunchedEffect(key1 = context) {
+
+    LaunchedEffect(key1 = viewModel.validationEvents) {
         viewModel.validationEvents.collect { event ->
             when (event) {
                 is ValidationEvent.Success -> {
-                    navController.navigate(NavScreen.UsersScren.route) {
-                        popUpTo(NavScreen.LoginScreen.route) {
-                            inclusive = true
-                        }
-                    }
+                    navToUsers.invoke()
                 }
             }
         }

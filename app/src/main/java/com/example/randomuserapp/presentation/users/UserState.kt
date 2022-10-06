@@ -6,5 +6,5 @@ data class UserState(
     val isLoading: Boolean = false,
     val users: List<RandomUser> = emptyList(),
     val error: String = "",
-    val allUsers: List<RandomUser> = emptyList()
+    var allUsers: List<RandomUser> = emptyList()
 )

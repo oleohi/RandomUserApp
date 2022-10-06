@@ -3,6 +3,7 @@ package com.example.randomuserapp.presentation.users
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.randomuserapp.domain.models.RandomUser
@@ -25,7 +26,7 @@ class UserViewModel @Inject constructor(
     private val _allUsers = arrayListOf<RandomUser>()
 
     init {
-        repeat(100) {
+        repeat(3) {
             getRandomUser()
         }
     }
