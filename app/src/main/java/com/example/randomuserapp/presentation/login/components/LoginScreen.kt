@@ -15,7 +15,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -67,6 +70,7 @@ fun LoginScreen(
                 .fillMaxWidth()
                 .defaultMinSize(minHeight = 30.dp)
                 .padding(40.dp)
+                .testTag("Title_Login")
         )
         OutlinedTextField(
             value = state.email,
@@ -76,7 +80,8 @@ fun LoginScreen(
                 )
             },
             isError = state.emailError != null,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth(),
             shape = RoundedCornerShape(10.dp),
             maxLines = 1,
             placeholder = {
@@ -109,7 +114,8 @@ fun LoginScreen(
                 )
             },
             isError = state.passwordError != null,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth(),
             shape = RoundedCornerShape(10.dp),
             singleLine = true,
             placeholder = {
@@ -135,7 +141,9 @@ fun LoginScreen(
         Spacer(modifier = modifier.height(16.dp))
 
         Button(
-            modifier = modifier.fillMaxWidth(),
+            modifier = modifier
+                .fillMaxWidth()
+                .testTag("LoginButton"),
             shape = RoundedCornerShape(10.dp),
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = if (isSystemInDarkTheme()) MaterialTheme.colors.secondary else MaterialTheme.colors.primary
